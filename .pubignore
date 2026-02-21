@@ -1,0 +1,19 @@
+# Build outputs
+
+build/
+.dart_tool/
+
+# IDE
+
+.idea/
+.vscode/
+\*.iml
+
+# Coverage
+
+coverage/
+
+# Example app build artifacts
+
+example/build/
+example/.dart_tool/
