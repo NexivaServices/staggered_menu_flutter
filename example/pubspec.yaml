@@ -13,5 +13,8 @@ dependencies:
   staggered_menu_flutter:
     path: ../
 
+dev_dependencies:
+  flutter_lints: ^4.0.0
+
 flutter:
   uses-material-design: true
