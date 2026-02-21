@@ -43,7 +43,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  staggered_menu_flutter: ^0.0.2
+  staggered_menu_flutter: ^0.0.3
 ```
 
 Then run:

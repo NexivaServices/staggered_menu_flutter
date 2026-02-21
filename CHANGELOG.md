@@ -1,3 +1,8 @@
+## 0.0.3
+
+- chore(example): added web platform support (`flutter create . --platforms web`).
+- fix(example): added `flutter_lints ^4.0.0` dev dependency and cleaned up generated `analysis_options.yaml` — resolves `include_file_not_found` warning.
+
 ## 0.0.2
 
 - **StaggeredMenuController** — programmatic `open()`, `close()`, and `toggle()`.

@@ -4,7 +4,7 @@ description: >-
   backdrop blur panel, hover effects, and fully themeable design. Drop it onto
   any screen and configure colours, typography, motion curves and more via a
   single StaggeredMenuThemeData object.
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/NexivaServices/staggered_menu_flutter
 repository: https://github.com/NexivaServices/staggered_menu_flutter
 issue_tracker: https://github.com/NexivaServices/staggered_menu_flutter/issues
