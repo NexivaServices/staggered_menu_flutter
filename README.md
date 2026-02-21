@@ -29,6 +29,11 @@ Animated pre-layers · Backdrop blur glass panel · Hover effects · Fully theme
 | ♿ **Accessible**          | Semantics labels on all interactive elements                                               |
 | 🔀 **Left / right**        | Panel can slide in from either edge                                                        |
 | 💬 **Socials section**     | Optional footer row with hover-dimming spotlight effect                                    |
+| 🎮 **Controller**          | `StaggeredMenuController` for programmatic open / close / toggle                           |
+| 🎨 **Inherited theme**     | `StaggeredMenuTheme` InheritedWidget — set once, inherit everywhere                        |
+| 🛤 **Route helper**        | `StaggeredRouteHelper.fromRoutes()` maps named routes to menu items automatically          |
+| 🧩 **Custom item builder** | `itemBuilder` slot for fully custom per-item rendering while keeping stagger animation     |
+| ⌨️ **Keyboard nav**        | Focus trap when open — **Escape** closes the menu                                          |
 
 ---
 
@@ -38,7 +43,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  staggered_menu_flutter: ^0.0.1
+  staggered_menu_flutter: ^0.0.2
 ```
 
 Then run:
@@ -111,7 +116,97 @@ StaggeredMenu(
 
 ---
 
-## 🎨 Theming reference
+## � Controller
+
+Open, close, or toggle the menu from code:
+
+```dart
+final controller = StaggeredMenuController();
+
+StaggeredMenu(
+  controller: controller,
+  items: [ /* … */ ],
+  child: myScaffold,
+);
+
+// Later:
+controller.open();
+controller.close();
+controller.toggle();
+
+// Dispose when done:
+controller.dispose();
+```
+
+---
+
+## 🎨 Inherited theme
+
+Wrap a subtree with `StaggeredMenuTheme` to avoid passing `theme:` to every menu:
+
+```dart
+StaggeredMenuTheme(
+  data: StaggeredMenuThemeData(accentColor: Colors.red),
+  child: MaterialApp(home: MyPage()),
+)
+```
+
+Resolution order: explicit `theme` parameter → nearest `StaggeredMenuTheme` → built-in defaults.
+
+---
+
+## 🛤 Named routes integration
+
+```dart
+StaggeredMenu(
+  items: StaggeredRouteHelper.fromRoutes(
+    context,
+    routes: {
+      '/':        'Home',
+      '/about':   'About',
+      '/contact': 'Contact',
+    },
+    currentRoute: ModalRoute.of(context)?.settings.name,
+  ),
+  child: myScaffold,
+)
+```
+
+The active route automatically gets a `null` onTap (disabled).
+
+---
+
+## 🧩 Custom item builder
+
+Replace the default uppercase-label rendering while keeping the stagger animation:
+
+```dart
+StaggeredMenu(
+  itemBuilder: (context, item, index, hovered) {
+    return Text(
+      item.label,
+      style: TextStyle(color: hovered ? Colors.red : Colors.white),
+    );
+  },
+  items: [ /* … */ ],
+  child: myScaffold,
+)
+```
+
+---
+
+## ⌨️ Keyboard navigation
+
+When the menu overlay is open:
+
+- A `FocusScope` traps focus within the panel.
+- Pressing **Escape** closes the menu.
+
+No extra setup required — it works out of the box.
+
+---
+
+## �🎨 Theming reference
 
 All properties have sensible defaults — override only what you need using `copyWith`:
 
@@ -171,13 +266,16 @@ staggered_menu_flutter/
 ├── lib/
 │   ├── staggered_menu_flutter.dart   ← public barrel (import this)
 │   └── src/
+│       ├── controller.dart           ← StaggeredMenuController
+│       ├── menu_theme.dart           ← StaggeredMenuTheme (InheritedWidget)
 │       ├── models.dart               ← StaggeredMenuItem, StaggeredSocialItem, MenuPosition
+│       ├── route_helper.dart         ← StaggeredRouteHelper
 │       ├── theme.dart                ← StaggeredMenuThemeData
-│       └── staggered_menu.dart       ← StaggeredMenu widget (internal)
+│       └── staggered_menu.dart       ← StaggeredMenu widget + itemBuilder + keyboard nav
 ├── example/
 │   └── lib/main.dart                 ← runnable demo
 ├── test/
-│   └── staggered_menu_flutter_test.dart
+│   └── staggered_menu_flutter_test.dart  (33 tests)
 ├── CHANGELOG.md
 ├── LICENSE
 └── pubspec.yaml
@@ -195,11 +293,17 @@ flutter test
 
 ## 🗺 Roadmap
 
-- [ ] `StaggeredMenuController` for programmatic open/close
-- [ ] Named routes integration helper
-- [ ] `StaggeredMenuTheme` inherited widget
-- [ ] Custom item builder slot
-- [ ] Keyboard navigation (focus trap)
+- [x] `StaggeredMenuController` for programmatic open/close
+- [x] Named routes integration helper (`StaggeredRouteHelper`)
+- [x] `StaggeredMenuTheme` inherited widget
+- [x] Custom item builder slot (`itemBuilder`)
+- [x] Keyboard navigation (focus trap + Escape)
+
+Upcoming:
+
+- [ ] RTL layout support
+- [ ] Spring physics animation preset
+- [ ] Built-in hero transition for page changes
 
 ---
 

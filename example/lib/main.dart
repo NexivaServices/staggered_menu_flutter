@@ -12,9 +12,23 @@ class DemoApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'StaggeredMenu Demo',
       theme: ThemeData.dark(useMaterial3: true),
-      home: const HomePage(),
+      // ── Inherited theme: every StaggeredMenu below inherits this ──────
+      home: const StaggeredMenuTheme(
+        data: _roseTheme,
+        child: HomePage(),
+      ),
     );
   }
+
+  // ── Custom rose theme ─────────────────────────────────────────────────────
+  static const _roseTheme = StaggeredMenuThemeData(
+    accentColor: Color(0xFFFF2D55),
+    preLayerColors: [Color(0xFFFFC2D1), Color(0xFFFF2D55)],
+    panelOpacity: 0.93,
+    blurSigma: 16,
+    barrierColor: Color(0x44000000),
+    duration: Duration(milliseconds: 800),
+  );
 }
 
 class HomePage extends StatefulWidget {
@@ -27,20 +41,20 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String _currentPage = 'Home';
 
-  // ── Custom rose theme ─────────────────────────────────────────────────────
-  static const _roseTheme = StaggeredMenuThemeData(
-    accentColor: Color(0xFFFF2D55),
-    preLayerColors: [Color(0xFFFFC2D1), Color(0xFFFF2D55)],
-    panelOpacity: 0.93,
-    blurSigma: 16,
-    barrierColor: Color(0x44000000),
-    duration: Duration(milliseconds: 800),
-  );
+  // ── Programmatic controller ───────────────────────────────────────────────
+  final _menuController = StaggeredMenuController();
+
+  @override
+  void dispose() {
+    _menuController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return StaggeredMenu(
-      theme: _roseTheme,
+      // No explicit theme → falls back to StaggeredMenuTheme ancestor.
+      controller: _menuController,
       logo: const Text(
         'STUDIO',
         style: TextStyle(
@@ -77,6 +91,35 @@ class _HomePageState extends State<HomePage> {
           onTap: () => setState(() => _currentPage = 'Contact'),
         ),
       ],
+      // ── Custom item builder: renders a leading dot before each label ────
+      itemBuilder: (context, item, index, hovered) {
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: 8,
+              height: 8,
+              margin: const EdgeInsets.only(right: 12),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: hovered
+                    ? const Color(0xFFFF2D55)
+                    : Colors.white.withValues(alpha: 0.3),
+              ),
+            ),
+            Text(
+              item.label.toUpperCase(),
+              style: TextStyle(
+                fontSize: hovered ? 48 : 42,
+                fontWeight: FontWeight.w900,
+                letterSpacing: -1,
+                color: hovered ? const Color(0xFFFF2D55) : Colors.white,
+              ),
+            ),
+          ],
+        );
+      },
       socialItems: const [
         StaggeredSocialItem(label: 'GitHub'),
         StaggeredSocialItem(label: 'Dribbble'),
@@ -106,6 +149,16 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(
                   color: Colors.white54,
                   fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 32),
+              // ── Programmatic open button ───────────────────────────────
+              FilledButton.icon(
+                onPressed: () => _menuController.open(),
+                icon: const Icon(Icons.menu),
+                label: const Text('Open via controller'),
+                style: FilledButton.styleFrom(
+                  backgroundColor: const Color(0xFFFF2D55),
                 ),
               ),
             ],

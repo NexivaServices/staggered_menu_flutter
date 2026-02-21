@@ -1,14 +1,12 @@
-/// Theme configuration for [StaggeredMenu].
+/// Theme configuration for the staggered menu widget.
 library;
 
 import 'package:flutter/material.dart';
-import 'package:staggered_menu_flutter/src/staggered_menu.dart' show StaggeredMenu;
-import 'package:staggered_menu_flutter/staggered_menu_flutter.dart' show StaggeredMenu;
 
 /// Immutable description of every visual and motion property of a
-/// [StaggeredMenu].
+/// `StaggeredMenu` widget.
 ///
-/// Pass a [StaggeredMenuThemeData] to [StaggeredMenu.theme] to customise the
+/// Pass a [StaggeredMenuThemeData] to `StaggeredMenu.theme` to customise the
 /// menu, or start from the defaults and override only what you need with
 /// [copyWith]:
 ///

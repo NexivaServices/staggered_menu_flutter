@@ -18,6 +18,9 @@
 /// ```
 library staggered_menu_flutter;
 
+export 'src/controller.dart';
+export 'src/menu_theme.dart';
 export 'src/models.dart';
+export 'src/route_helper.dart';
 export 'src/staggered_menu.dart';
 export 'src/theme.dart';

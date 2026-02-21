@@ -1,3 +1,14 @@
+## 0.0.2
+
+- **StaggeredMenuController** — programmatic `open()`, `close()`, and `toggle()`.
+- **StaggeredMenuTheme** inherited widget — set theme data once and inherit it everywhere.
+- **StaggeredRouteHelper** — `fromRoutes()` maps named routes to menu items automatically; active route gets a disabled (null) `onTap`.
+- **Custom item builder** — `itemBuilder` callback replaces the default per-item rendering while keeping stagger animation, hit-testing, and semantics.
+- **Keyboard navigation** — `FocusScope` traps focus when the overlay is open; pressing **Escape** closes the menu.
+- Theme parameter (`StaggeredMenu.theme`) is now nullable; resolution order: explicit → inherited → defaults.
+- Test suite expanded from 11 to 33 tests.
+- Example app updated to demonstrate controller, inherited theme, and custom item builder.
+
 ## 0.0.1
 
 - Initial release.
